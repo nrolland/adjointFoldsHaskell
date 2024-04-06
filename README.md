@@ -1,4 +1,4 @@
-# adjointFoldsHaskell
+# Adjoint folds in Haskell
 
 
 Adjoint folds generalize some operations very frequently used in the functional programming style (catamorphism, histomorphism, mutumpoprhism, etc..)
