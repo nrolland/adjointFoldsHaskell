@@ -36,3 +36,11 @@ from Sjoerd
 
 weak recursion vs strong recursion
 advantage in proof carrying code
+
+
+
+# Bibliography
+
+[Adjoint Folds and Unfolds Or: Scything Through the Thicket of Morphisms](https://www.cs.ox.ac.uk/ralf.hinze/SSGIP10/AdjointFolds.pdf)
+[Conjugate Hylomorphisms Or: The Mother of All Structured Recursion Schemes](https://www.cs.ox.ac.uk/people/nicolas.wu/papers/Hylomorphisms.pdf)
+[Fantastic Morphisms and Where to Find Them: A Guide to Recursion Schemes](https://arxiv.org/abs/2202.13633)
