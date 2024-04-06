@@ -1,10 +1,10 @@
 {-# language IncoherentInstances #-}
--- Higher order functors
+-- Higher order functors and adjunctions
 -- Perfect trees
 
-import Data.Bifunctor
-import Data.Functor.Const
-import Data.Functor.Identity
+import Data.Bifunctor ( Bifunctor(bimap) )
+import Data.Functor.Const ( Const(..) )
+import Data.Functor.Identity ()
 import MutuAna (nats)
 
 -- Natural transformations
@@ -22,6 +22,7 @@ instance (HFunctor ff, Functor f) => Functor (ff f) where
     fmap = ffmap
 
 instance HFunctor PerfectF where
+    ffmap :: Functor f => (a -> b) -> PerfectF f a -> PerfectF f b
     ffmap h (Zero a) = Zero (h a)
     ffmap h (Succ faa) = Succ $ fmap (bimap h h) faa
     hfmap :: (f :~> g) -> (PerfectF f :~> PerfectF g)
@@ -140,7 +141,7 @@ class (ToFunctor lf, FromFunctor rf) => ToFromAdj lf rf where
 
 -- Lshift a -| App a -| Rshift a
 
-data App a f = App (f a)
+newtype App a f = App (f a)
 
 instance FromFunctor (App a) where
     hmap nat (App fa) = App (nat fa)
@@ -148,7 +149,7 @@ instance FromFunctor (App a) where
 --  Ran g h a = forall x. (a -> g x) -> h x
 --  Lan g h a = exist  x. (g x -> a) -> h x
 
-data Rshift a b y = Rshift ((y -> a) -> b)
+newtype Rshift a b y = Rshift ((y -> a) -> b)
 
 instance ToFunctor (Rshift x) where
     ftmap :: (y -> y') -> Rshift x a y -> Rshift x a y'
@@ -180,6 +181,12 @@ instance ToFromAdj (Lshift a) (App a) where
 hcata :: (HFunctor hf) => (hf f :~> f) -> (Mu hf :~> f)
 hcata alg = alg . hfmap (hcata alg) . in'
 
+-- F (mu F) - F cata -> F (R a)    (L.F.R) a
+--  |                     |           |alg
+--  v                     v           v
+-- mu F  ---- hcata -->  R a          a
+--
+-- L (mu F) -- cataT ->   a
 
 -- Algebra transformer
 -- f (rf a) -> (rf a) -> Mu f -> rf a
