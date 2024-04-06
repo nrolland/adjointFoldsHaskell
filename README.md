@@ -28,6 +28,8 @@ Their result is the same but not the computation leading to it
 
 ## Most general encoding in modern haskell
 
+from Sjoerd
+
 ## Limits of haskell
 
 # Mendler folds vs simple folds
