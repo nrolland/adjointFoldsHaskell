@@ -45,3 +45,4 @@ advantage in proof carrying code
 
 - [Conjugate Hylomorphisms Or: The Mother of All Structured Recursion Schemes](https://www.cs.ox.ac.uk/people/nicolas.wu/papers/Hylomorphisms.pdf)
 - [Fantastic Morphisms and Where to Find Them: A Guide to Recursion Schemes](https://arxiv.org/abs/2202.13633)
+- [Unifying Structured Recursion Schemes](https://www.cs.ox.ac.uk/jeremy.gibbons/publications/urs.pdf)
