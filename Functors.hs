@@ -131,9 +131,19 @@ class ToFunctor (tf :: * -> (* -> *)) where
 instance (ToFunctor tf) => Functor (tf a) where
     fmap = ftmap
 
+-- lf f     f
+--  |       |
+--  v       v
+--  y      rf y
+
 class (FromFunctor lf, ToFunctor rf) => FromToAdj lf rf where
   ltor :: Functor f => (lf f -> y) -> (f :~> rf y)
   rtol :: (f :~> rf y) -> (lf f -> y)
+
+-- lf y     y
+--  |       |
+--  v       v
+--  f      rf f
 
 class (ToFunctor lf, FromFunctor rf) => ToFromAdj lf rf where
   ltor' :: (lf y :~> f) -> (y -> rf f)
@@ -190,8 +200,8 @@ hcata alg = alg . hfmap (hcata alg) . in'
 
 -- Algebra transformer
 -- f (rf a) -> (rf a) -> Mu f -> rf a
-cataT :: (FromToAdj lh rf, HFunctor f) => (lh(f(rf a)) -> a) -> (lh (Mu f) -> a)
--- alg :: lh f rf a -> a
+cataT :: (FromToAdj lf rf, HFunctor f) => (lf(f(rf a)) -> a) -> (lf (Mu f) -> a)
+-- alg :: lf f rf a -> a
 -- f rf a :~> rf a
 cataT alg = rtol (hcata (ltor alg))
 
@@ -217,12 +227,10 @@ cataT alg = rtol (hcata (ltor alg))
 -- after adjunction: FList (Rshift a b) -> Rshift Int
 -- result before adjunction: Mu FList -> Rshift Int
 -- Rshift Int b y = (y -> Int) -> b
-alg :: App Int (FList (Rshift Int (Int, Int))) -> (Int, Int)
-alg (App FNil) = (100, 10)
--- k :: (x -> Int) -> (x, x)
-alg (App (FCons n (Rshift k))) = 
-    let (a, b) = k (+ n)
-    in (a + b, b)
+alg :: App Int (FList (Rshift Int Int)) -> Int
+alg (App FNil) = 0
+-- k :: (x -> Int) -> x
+alg (App (FCons n (Rshift k))) = k (+ n)
 
 lst :: (Mu FList) Int
 lst = In (FCons 100 (In (FCons 10 (In (FCons 1 (In FNil))))))
