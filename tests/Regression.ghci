@@ -1,0 +1,26 @@
+:set -XDeriveFunctor
+:set -XFlexibleContexts
+:set -XFlexibleInstances
+:set -XIncoherentInstances
+:set -XInstanceSigs
+:set -XKindSignatures
+:set -XMultiParamTypeClasses
+:set -XRankNTypes
+:set -XScopedTypeVariables
+:set -XTypeOperators
+:set -XUndecidableInstances
+:load Functors.hs
+
+let assertEqual label expected actual = if expected == actual then putStrLn ("PASS: " ++ label) else error (label ++ ": expected " ++ show expected ++ ", got " ++ show actual)
+
+assertEqual "Mendler fold counts perfect-tree leaves" 4 test
+assertEqual "Mendler fold flattens perfect-tree leaves" [1,2,3,4] test2
+assertEqual "adjoint fold sums a list" 111 testS
+assertEqual "direct perfect-tree sum" 10 (sump tree4)
+assertEqual "adjoint perfect-tree sum" 10 testsp
+assertEqual "adjoint and direct perfect-tree sums agree" (sump tree4) testsp
+
+:load MutuAna.hs
+assertEqual "mutual anamorphism matches direct definition" test test1
+
+:quit
