@@ -1,14 +1,3 @@
-:set -XDeriveFunctor
-:set -XFlexibleContexts
-:set -XFlexibleInstances
-:set -XIncoherentInstances
-:set -XInstanceSigs
-:set -XKindSignatures
-:set -XMultiParamTypeClasses
-:set -XRankNTypes
-:set -XScopedTypeVariables
-:set -XTypeOperators
-:set -XUndecidableInstances
 :load Functors.hs
 
 let assertEqual label expected actual = if expected == actual then putStrLn ("PASS: " ++ label) else error (label ++ ": expected " ++ show expected ++ ", got " ++ show actual)
