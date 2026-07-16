@@ -15,6 +15,26 @@ The main reference is Ralf Hinze's
 > Status: experimental. The code currently favours explicit encodings and
 > type-level exploration over a polished public API.
 
+## Running the examples
+
+The repository deliberately keeps the build lightweight. With GHC installed:
+
+```bash
+./test.sh
+```
+
+The script loads the source modules in GHCi and checks the current regression
+examples. The same command runs in GitHub Actions.
+
+## Source modules
+
+- `Functors.hs` contains natural transformations, higher-order functors,
+  fixed points, adjunctions, perfect-tree examples and adjoint folds.
+- `MutuAna.hs` contains a small mutual-anamorphism example.
+
+Each module declares the language extensions it needs, so loading the source
+does not depend on hidden GHCi settings.
+
 ## The central idea
 
 For an ordinary fixed point `Mu f`, a catamorphism consumes an algebra
@@ -142,7 +162,7 @@ sumAlg (App (Zero n)) = n
 sumAlg (App (Succ (Rshift k))) = k (uncurry (+))
 ```
 
-The intended regression property is:
+The regression suite checks:
 
 ```haskell
 cataT sumAlg (App tree4) == sump tree4
@@ -169,18 +189,18 @@ encoding.
 The implementation is exploratory and currently has several deliberate rough
 edges:
 
-- most definitions live in one source file;
-- some test values lack explicit signatures;
+- most higher-order definitions still live in one source module;
 - the generic `Functor (ff f)` instance requires unusually permissive instance
   resolution;
-- the examples are not yet covered by an automated test suite;
-- names such as `psi`, `psi1` and `psi2` are concise but not tutorial-friendly.
+- the tests cover representative examples, not algebraic laws;
+- names such as `psi`, `psi1` and `psi2` remain concise rather than
+  tutorial-friendly.
 
-A sensible next refactoring is to separate natural transformations,
+A sensible next refactoring is to split natural transformations,
 higher-order functors, adjunctions, fixed points and examples into independent
-modules, then add tests for equivalence with direct recursive definitions.
+modules, while keeping the regression suite green after each move.
 
-## Suggested module layout
+## Suggested future layout
 
 ```text
 src/
